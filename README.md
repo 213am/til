@@ -3,14 +3,14 @@
 ## 프로그램 설치
 
 1. Visual Studio code
-   1.1. Download(https://code.visualstudio.com/)
+   <br>1.1. Download(https://code.visualstudio.com/)
    <br>1.2. 플러그인 목록(웹 퍼블리싱)
 
    ```
-   - Auto Colse Tag
+   - Auto Close Tag
    - Auto Rename Tag
-   - Bracket Pari Clor DLW
-   - CSS Peak
+   - Bracket Pair Color DLW
+   - CSS Peek
    - HTML CSS Support
    - HTML to CSS autocompletion
    - Image preview
