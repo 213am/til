@@ -1,10 +1,10 @@
-# 프론트엔드 과정 기초 환경 설정
+# 프론트엔드 과정 기초 환경설정
 
 ## 프로그램 설치
 
 1. Visual Studio code
-   1.1. Download(https://code.visualstudio.com/)<br>
-   1.2. 플러그인 목록(웹 퍼블리싱)
+   1.1. Download(https://code.visualstudio.com/)
+   <br>1.2. 플러그인 목록(웹 퍼블리싱)
 
    ```
    - Auto Colse Tag
