@@ -92,7 +92,7 @@ git config --global user.mail "Email"
 
 ```
 단축키 : Ctrl + `
-터미널이 bask 인지 필수적으로 확인
+터미널이 bash 인지 필수적으로 확인
 ```
 
 #### 3.3.2. git 초기화
@@ -105,6 +105,7 @@ git init
 
 ```
 README.md 파일은 root 폴더에 있어야 함
+
 필요한 내용 작성
 ```
 
