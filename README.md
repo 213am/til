@@ -1,4 +1,4 @@
-# javaScript 기초
+# 1. javaScript 기초
 
 ---
 
@@ -374,7 +374,7 @@ const 예약자수_3 = "";
 const 잔여석_3 = "";
 ```
 
-- 배열
+- 배열 []
 
 ```js
 // 인터파크 쇼핑몰 js 작업 - 배열
@@ -389,7 +389,7 @@ const 예약자수 = [100, 50, 40];
 const 잔여석 = [false, false, true];
 ```
 
-- 객체
+- 객체 {}
 
 ```js
 // 인터파크 쇼핑몰 js 작업 - 객체
@@ -430,7 +430,7 @@ const 노트르담 = {
 const 공연 = [로미오, 아이유, 노트르담];
 ```
 
-- 함수
+- 함수 : function(){}
 
 ### 6.4. 호이스팅(Hoisting)
 
@@ -461,6 +461,8 @@ console.log(num_4);
 console.log(num_5);
 ```
 
+</br>
+
 ## 8. string 알아보기
 
 ```js
@@ -480,6 +482,8 @@ console.log(typeof str_3);
 
 console.log(message);
 ```
+
+</br>
 
 ## 9. boolean 알아보기
 
@@ -560,7 +564,10 @@ if (isN) {
 ### 9.1. 우리는 falshy 한 데이터를 알아야 합니다.
 
 - truthy
-  </br>
+
+  > falshy 값으로 정의된 값이 아니면 모두 truthy 로 정의
+
+</br>
 
 - falshy
   > 어떤 경우를 false 로 판단하는가?
@@ -574,4 +581,769 @@ false;
 null;
 undefined;
 NaN;
+```
+
+</br>
+
+## 10. null 알아보기
+
+- 변수에 보관한 `값`이 `없다`.
+- 개발자가 값이 비었음을 **직접** 표현한다.
+
+```js
+const memberInfo = null;
+
+// memberInfo 는 falshy 라서 거짓이 됨
+if (memberInfo) {
+  console.log("memberInfo가 있어요.");
+} else {
+  console.log("memberInfo가 없어요.");
+}
+```
+
+</br>
+
+## 11. undefined 알아보기
+
+- un + defined
+- defined 는 값을 셋팅한 상태
+- undefined 는 값을 셋팅안한 상태
+- 변수의 초기값은 undefined
+
+```js
+let isLogin;
+
+// isLogin 의 값은 undefined 가 되므로 falshy 라서 거짓이 됨
+if (isLogin) {
+  console.log("isLogin 있어요.");
+} else {
+  console.log("isLogin 없어요.");
+}
+```
+
+</br>
+
+## 12. symbol 알아보기
+
+- unique 한 값
+- 교재 참조
+  </br>
+
+## 13. 기본형 데이터 정리
+
+```js
+const str = "안녕";
+const strName = `홍길동 ${str}하세요`;
+
+const num = 1;
+const numNaN = NaN; // Not a Number
+
+const isLogin = false;
+
+const member = null;
+
+let isPoint = undefined;
+```
+
+</br>
+
+# 2. 암묵적(묵시적) 데이터형 변환
+
+- 데이터가 나한테 말도 안하고 형태(종류)가 바뀌네?
+- 프로그램에 원하지 않는 결과가 도출
+
+```js
+const num = 100;
+console.log(typeof num, num); // number
+
+const point = "50";
+console.log(typeof point, point); // string
+
+const total = num + point; // num + string
+//            100 + "50" == 150?
+//            100 + "50" == 10050?
+console.log(typeof total, total); // string 10050
+// num + string => string + string  묵시적으로 type 결정
+
+const minus = num - point; // num - string
+//            100 - "50" == 50?
+//            100 - "50" == ???
+console.log(typeof minus, minus); // number 50
+// num - string => num - num  묵시적으로 type 결정
+
+const multiply = num * point; // num * string
+console.log(typeof multiply, multiply); // number 5000
+
+const divide = num / point; // num / string
+console.log(typeof divide, divide); // number 2
+```
+
+</br>
+
+# 3. 명시적 데이터형 변환
+
+- 명시적 데이터형을 지정함
+- Number()
+
+  > type 을 number 로 지정하지만
+  > number + string 에 대해서는 결과를 도출하지 못함.
+
+- parseInt()
+  > type 을 number 로 지정하고
+  > number 와 string 을 분리해줌.
+  > 하지만, string+number+string 처럼 문자열 사이에
+  > number 가 있을 경우에는 다른 방법이 필요하다.
+
+```js
+console.log(parseInt("123"));
+// 123 (default base-10)
+console.log(parseInt("123", 10));
+// 123 (explicitly specify base-10)
+console.log(parseInt("   123 "));
+// 123 (whitespace is ignored)
+console.log(parseInt("077"));
+// 77 (leading zeros are ignored)
+console.log(parseInt("1.9"));
+// 1 (decimal part is truncated)
+console.log(parseInt("ff", 16));
+// 255 (lower-case hexadecimal)
+console.log(parseInt("0xFF", 16));
+// 255 (upper-case hexadecimal with "0x" prefix)
+console.log(parseInt("xyz"));
+// NaN (input can't be converted to an integer)
+console.log(parseInt("123_456"));
+// 123
+```
+
+```js
+const num = 100;
+console.log(typeof num, num); // number
+
+const point = "50점";
+console.log(typeof point, point); // string
+
+const total = num + parseInt(point); // number + number
+console.log(typeof total, total); // number 150
+
+const minus = num - Number(point); // number - number
+console.log(typeof minus, minus); // number NaN
+
+const multiply = num * Number(point); // num * number
+console.log(typeof multiply, multiply); // number NaN
+
+const divide = num / parseInt(point); // num / number
+console.log(typeof divide, divide); // number 2
+```
+
+</br>
+
+# 4. 연산
+
+- 수식에 의한 결과값 출력하기
+
+## 4.1. 사칙연산( + - \* / ), 나머지연산(%)
+
+```js
+// + 연산
+const num_1 = 500;
+const num_2 = 50;
+const total = num_1 + num_2; // 550
+
+const str_1 = "안녕"; //  string
+const str_2 = "반가워"; //  string
+const result = str_1 + str_2; // 안녕반가워
+
+const num_3 = 200; //  number
+const str_3 = "점이야"; //  string
+const result_str_num = num_3 + str_3;
+console.log(typeof result_str_num, result_str_num); // string 200점이야
+
+// - 연산
+const m_1 = 500;
+const m_2 = 1000;
+const m_result = m_1 - m_2; // -500
+
+const m_3 = 500; //  number
+const m_4 = "안녕"; //  string
+const m_result_n_s = m_3 - m_4; // NaN
+
+const m_5 = "500"; // string
+const m_6 = "1000"; // string
+const m_result_s_s = m_5 - m_6;
+console.log(typeof m_result_s_s, m_result_s_s); // number -500
+
+// * 연산
+const multi_1 = 5;
+const multi_2 = 3;
+const multi_result_1 = multi_1 * multi_2; //  15
+
+// type 을 숫자로 바꾸어 보고 결과 출력
+const multi_3 = 5;
+const multi_4 = "안녕";
+const multi_result_2 = multi_3 * multi_4; //  NaN
+
+// / 연산
+const div_1 = 10;
+const div_2 = 5;
+const div_result_1 = div_1 / div_2; //  2
+
+const div_3 = 10;
+const div_4 = "안녕";
+const div_result_2 = div_3 / div_4; //  NaN
+
+const div_5 = 5;
+const div_6 = 0;
+const div_result_3 = div_5 / div_6;
+console.log(typeof div_result_3, div_result_3); //  number Infinity
+
+// % 연산
+const totalReview_1 = 32;
+const pageReview_1 = 5;
+const tatalResult_1 = totalReview_1 % pageReview_1; //  2
+
+const totalReview_2 = 32;
+const pageReview_2 = 0;
+const tatalResult_2 = totalReview_2 % pageReview_2;
+console.log(typeof tatalResult_2, tatalResult_2); //  number NaN
+```
+
+</br>
+
+## 4.2. 복합 연산자( += -= \*= /= %=)
+
+```js
+// 복합연산자
+let num_1 = 500;
+
+num_1 = num_1 + 5;
+num_1 += 5;
+
+num_1 = num_1 - 5;
+num_1 -= 5;
+
+num_1 = num_1 * 5;
+num_1 *= 5;
+
+num_1 = num_1 / 5;
+num_1 /= 5;
+
+num_1 = num_1 % 5;
+num_1 %= 5;
+```
+
+## 4.3. 증가 감소 연산자( ++ -- )
+
+```js
+// 증감 연산자
+let num_1 = 500;
+
+num_1++; //  후치
+++num_1; //   전치
+console.log(num_1); //  501
+
+num_1--;
+--num_1;
+console.log(num_1); // 499
+```
+
+## 4.4. 논리 연산자
+
+- 결과가 true 냐 false 냐
+
+```js
+false;
+("");
+0;
++0;
+-0;
+null;
+undefined;
+NaN;
+```
+
+```js
+// 또는 연산자 (OR 연산자)
+let result = true || true; //  true
+result = true || false; //  true
+result = false || false; //  false
+result = "로그인 성공" || "로그인 실패"; //  "로그인 성공"
+
+// 그리고 연산자 (AND 연산자)
+result = true && true; //  true
+result = true && false; //  false
+result = false && true; //  false
+result = "로그인 성공" && "로그인 실패"; //  "로그인 실패"
+
+// NOT 연산자
+result = !true; //  false
+result = !false; //  true
+```
+
+## 4.5. 비교 연산자
+
+```
+let result = (1 == "1"); //  true   값만 비교
+result = (1 === "1"); //  false     값과 type 을 같이 비교
+
+result = (1 != "1"); //  false    값이 같기때문에 false
+result = (1 !== "1"); // true     type이 다르기 떄문에 true
+
+result = 1 > 1; //  false
+result = 1 < 1; //  false
+result = 1 <= 1; //  true
+result = 1 >= 1; //  true
+```
+
+## 4.6. 병합 연산자
+
+- `기본값을 셋팅`할 때 활용
+- `undefined`, `null` 이 아닌 것 찾기
+
+```js
+// 병합 연산자
+let userName = null;
+let displayName = userName ?? "Guest";
+console.log("displayName: ", displayName); //  displayName: Guest
+
+/* 0은 falshy한 값이지만 null 또는 undefined 가 아니기 때문에
+age 의 값이 출력 */
+let age = 0;
+let displayAge = age ?? 15;
+console.log("displayAge: ", displayAge); //  displayAge: 0
+```
+
+## 4.7. 삼항 연산자
+
+- 연산자가 3개라서 삼항이라고 합니다.
+
+```js
+// 삼항 연산자
+// 결과 = 조건 ? true일 때의 결과 : false일 때의 결과
+
+let age = 10;
+let result = age > 18;
+
+/* if (result) {
+  console.log("회원가입");
+} else {
+  console.log("보호자 동의 필요");
+} */
+
+result = age > 18 ? console.log("회원가입") : console.log("보호자 동의 필요");
+
+const userRole = "ADMIN";
+const url = userRole === "ADMIN" ? "admin.html" : "member.html";
+```
+
+</br>
+
+# 5. 조건문(condittion)
+
+## 5.1. if 문
+
+```js
+// if 문
+
+const age = 15;
+if (age >= 18) {
+  console.log("성인");
+}
+
+const user = "hong";
+if (user) console.log("로그인 성공");
+
+// if else 구문을 일반적으로 사용
+if (age >= 18) {
+  console.log("성인");
+} else {
+  console.log("미성년자");
+}
+
+// if   else if   else
+if (age >= 18) {
+  console.log("성인");
+} else if (age >= 16) {
+  console.log("고등학생");
+} else if (age >= 13) {
+  console.log("중학생");
+} else if (age >= 7) {
+  console.log("초등학생");
+} else {
+  console.log("미취학아동");
+}
+```
+
+## 5.2. switch 문
+
+```js
+// switch 문
+const age = 15;
+/* switch(조건) 이  case 와 같을 때 동작
+같지 않으면 default 로 간다.
+범위가 아니기 때문에 용도에 맞는 사용이 필요 */
+switch (age) {
+  case 18:
+    console.log("성인");
+    break;
+
+  case 16:
+    console.log("고등학생");
+    break;
+
+  case 13:
+    console.log("중학생");
+    break;
+
+  case 7:
+    console.log("초등학생");
+    break;
+
+  default:
+    console.log("미취학아동");
+    break;
+}
+
+const userRole = "ADMIN"; //  ADMIN   MEMBER    GUEST
+
+switch (userRole) {
+  case "ADMIN":
+    console.log("관리자 페이지 ADMIN");
+    break;
+  case "MEMBER":
+    console.log("회원 페이지 MEMBER");
+    break;
+  default:
+    console.log("회원가입 GUEST");
+    break;
+}
+```
+
+# 6. 반복문(Loop)
+
+- for 문
+  > 몇 번 반복할 지를 프로그래머가 아는 경우
+
+```js
+// for 조건이 참인 동안 실행
+
+/* for (초기값; 조건식; 증감) {
+  할일;
+}
+ */
+
+const total = 10;
+for (let i = 0; i < total; i++) {
+  console.log("안녕", i);
+}
+// break 는 가까운 for 반복문을 끊어내고 다음 코드 실행
+for (let i = 0; i < total; i++) {
+  console.log("안녕", i);
+  if (i === 2) {
+    break;
+  }
+}
+console.log("점심시간");
+
+// 반복 중 일부를 실행하지 않고 무시하면서 반복
+for (let i = 0; i < total; i++) {
+  console.log("안녕", i);
+  if (i % 2) {
+    continue;
+  }
+  console.log("반가워", i);
+}
+
+// 전제: for 를 중첩하더라도 2중 for 까지만
+// break 를 조금 더 보기
+// break 는 가장 가까운 for 를 끊고 다음 코드 실행
+
+// 구구단
+for (let i = 1; i < 10; i++) {
+  console.log("=== ", i, "단 출력 ===");
+  for (let j = 1; j < 10; j++) {
+    if (j > 5) {
+      // break 의 사용법이 중요
+      break;
+    }
+    console.log(`${i} * ${j} = ${i * j}`);
+  }
+}
+```
+
+- while 문
+
+  > 몇 번 반복할 지를 모를 경우
+
+- do while 문
+  > 몇 번 반복할 지를 모를 경우
+  > 최초 한번은 실행 후 조건을 확인
+
+```js
+/* while (조건) {
+  할일;
+}
+
+do {
+  할일;
+} while (조건);
+ */
+
+let count = 0;
+
+while (count < 5) {
+  console.log("while ", count);
+  count++;
+}
+
+let countDo = 0;
+
+do {
+  console.log("do ", countDo);
+  countDo++;
+} while (countDo < 5);
+```
+
+# 7. 함수(function)
+
+- 기능을 { } 블럭에 모으고 이름을 부여하는 것
+- 함수는 여러 번 사용하는 기능의 묶음
+- 여러 번 사용하므로 JSDOC 을 작성하려고 노력하자
+- 여러 번 사용하므로 예외처리를 하려고 노력하자
+
+## 7.1. 함수가 필요한 이유?
+
+- 반복되는 여러 줄의 코드가 있다면 함수로 만들어
+  효율적인 사용 가능
+- 주어진 재료를 동일한 처리로 결과값을 리턴
+- 함수의 기능을 변경하면 모든 곳에 자동으로 반영
+- 개발의 속도 및 안정성이 좋다
+- **가독성이 엄청 좋아집니다**
+
+## 7.2. 함수 만드는 순서
+
+1. 먼저 반복되는 일들을 `{ }` 로 묶어주기
+2. 이름은 `동사`로 짓자
+3. 이름 뒤에 `( )` 주자
+4. js 를 위해 `function` 키워드 작성
+
+## 7.3. 함수 사용하는 방법
+
+- 이름( ) : 함수 `call`(호출)
+
+## 7.4. 함수에 옵션 주기
+
+- 관례: function 함수명(`매개변수`, `매개변수=기본값`){ 할일 }
+- 관례: 매개변수를 \_ 만 쓰는 경우도 있다
+- 예시) function 함수명( \_ , 매개변수){ }
+
+```js
+// 세금을 계산하고 싶다.
+// 월급의 5 % 가 세금이다.
+// 월급 = 1,000,000원
+// 세금 = 5 %
+// 납부 해야할 세금 = 월급 * 0.05
+
+const money = 1000000;
+const ratio = 5;
+// 함수 안에 변화해야할 값이 있다면 매개변수로
+function ratioCalc(_money, _ratio) {
+  // 재료가 없는 경우 예외처리
+  if (_money === undefined || _ratio === undefined) {
+    return "값이 올바르지 않습니다. 확인해주세요.";
+  }
+  const ratio = _ratio / 100;
+  const result = _money * ratio;
+
+  console.log(result);
+}
+
+ratioCalc(money, ratio);
+```
+
+```js
+/**
+ *  덧셈 계산기
+ *  @param {number} a
+ *  @param {number} b
+ *  @returns {number}
+ */
+
+function add(a, b) {
+  if (arguments.length < 2) {
+    return "2개의 값이 필요합니다.";
+  }
+  if (typeof a !== "number") {
+    return "첫번째 값이 숫자여야 합니다.";
+  }
+  if (typeof b !== "number") {
+    return "두번째 값이 숫자여야 합니다.";
+  }
+
+  const result = a + b;
+  return result;
+}
+
+add();
+
+/**
+ *  뺄셈 함수
+ *  @param {number} a
+ *  @param {number} b
+ *  @returns {number}
+ */
+
+function minus(a, b) {
+  if (arguments.length < 2) {
+    return "2개의 값이 필요합니다.";
+  }
+  if (typeof a !== "number") {
+    return "첫번째 값이 숫자여야 합니다.";
+  }
+  if (typeof b !== "number") {
+    return "두번째 값이 숫자여야 합니다.";
+  }
+
+  const result = a - b;
+  return result;
+}
+
+minus();
+
+/**
+ *  나누기 함수
+ *  @param {number} a
+ *  @param {number} b
+ *  @returns {number}
+ */
+
+function divide(a, b) {
+  if (arguments.length < 2) {
+    return "2개의 값이 필요합니다.";
+  }
+  if (typeof a !== "number") {
+    return "첫번째 값이 숫자여야 합니다.";
+  }
+  if (typeof b !== "number") {
+    return "두번째 값이 숫자여야 합니다.";
+  }
+  if (b === 0) {
+    return "분모는 반드시 0보다 커야합니다.";
+  }
+
+  const result = a / b;
+  return result;
+}
+
+divide();
+```
+
+````js
+/**
+ *  계산기
+ *  계산기 함수는 2개의 숫자와 1개의 기호를 받습니다.
+ *  1개의 기호는 + - / 중 입력합니다.
+ *
+ *  사용예시
+ *  ```javascript
+ *  const result = calc("+", 5, 4);
+ *  ```
+ *  @param {string} sign
+ *  @param {number} a
+ *  @param {number} b
+ *  @returns {number}
+ */
+
+function calc(sign, a, b, role = "guest") {
+  if (role === "admin") {
+    return "관리자님, 환영합니다.";
+  }
+  if (typeof a !== "number") {
+    return "첫번째 값이 숫자여야 합니다.";
+  }
+  if (typeof b !== "number") {
+    return "두번째 값이 숫자여야 합니다.";
+  }
+
+  switch (sign) {
+    case "+":
+      return add(a, b);
+      break;
+
+    case "-":
+      return minus(a, b);
+      break;
+
+    case "/":
+      if (b === 0) {
+        return "분모는 반드시 0 보다 커야합니다.";
+      }
+      return divide(a, b);
+      break;
+
+    default:
+      return "+ - / 중 하나의 기호를 입력해주세요.";
+      break;
+  }
+}
+
+const now = calc("-", 5, 1);
+
+console.log(now);
+````
+
+</br>
+
+# 8. 화살표 함수(Arrow function)
+
+## 8.1. 정말 간단한 작성법
+
+> const 이름 = (매개변수) => { }
+
+```js
+add();
+function add() {
+  return 1 + 2;
+}
+const addA = () => 1 + 2;
+addA();
+////////////////////////////////////
+function minus(a) {
+  return a - 2;
+}
+const minusA = (a) => a - 2;
+////////////////////////////////////
+function divide(a, b) {
+  return a / b;
+}
+const divedeA = (a, b) => a / b;
+////////////////////////////////////
+function multi(a, b) {
+  console.log("곱셈");
+  return a * b;
+}
+const multiA = (a, b) => {
+  console.log("곱셈");
+  return a * b;
+};
+```
+
+## 8.2. 일반 함수와는 다르게 arguments 가 없다.
+
+- `arguments` 대신에 `...rest(rest parametor)`가 있다.
+
+```js
+function add(a, b) {
+  console.log(arguments);
+  return a + b;
+}
+add(5, 4, 6, 7, 8);
+// arguments 안에는 불필요한 데이터들이 많아
+// function 실행 시, 메모리가 많이 소모된다
+// 따라서 성능최적화를 위해 arrow function 사용이 권장됨
+
+const addA = (a, b, ...aaa) => {
+  console.log(aaa);
+  return a + b;
+};
+addA(100, 70, 5, 5, 5, 5, 5);
 ```
