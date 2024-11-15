@@ -1,41 +1,17 @@
-function run(함수) {
-  함수();
-}
-/////////////////////////////////////
-function say() {
-  console.log("say");
-}
-function cry() {
-  console.log("ㅠㅠ");
-}
-
-run(function () {
-  console.log("say");
-});
-run(function () {
-  console.log("ㅠㅠ");
-});
-/////////////////////////////////////
-const say = () => {
-  console.log("say");
+const student_1 = {
+  age: 15,
+  isMember: true,
+  say: function () {
+    console.log(this.age);
+  },
+  cry: () => {
+    console.log(this.isMember);
+  },
+  // method 축약형
+  hi() {
+    console.log(this);
+  },
 };
-const cry = () => {
-  console.log("ㅠㅠ");
-};
-
-run(say);
-run(cry);
-/////////////////////////////////////
-function say() {
-  console.log("say");
-}
-function cry() {
-  console.log("ㅠㅠ");
-}
-
-run(() => {
-  console.log("say");
-});
-run(() => {
-  console.log("cry");
-});
+student_1.say(); //  15
+student_1.cry(); //  undefined
+student_1.hi(); //  student_1
