@@ -1,11 +1,41 @@
-console.log("글로벌 this: ", this);
-
-const go = () => {
-  console.log("화살표 this: ", this);
-};
-go();
-
-function hi() {
-  console.log("일반함수 this: ", this);
+function run(함수) {
+  함수();
 }
-hi();
+/////////////////////////////////////
+function say() {
+  console.log("say");
+}
+function cry() {
+  console.log("ㅠㅠ");
+}
+
+run(function () {
+  console.log("say");
+});
+run(function () {
+  console.log("ㅠㅠ");
+});
+/////////////////////////////////////
+const say = () => {
+  console.log("say");
+};
+const cry = () => {
+  console.log("ㅠㅠ");
+};
+
+run(say);
+run(cry);
+/////////////////////////////////////
+function say() {
+  console.log("say");
+}
+function cry() {
+  console.log("ㅠㅠ");
+}
+
+run(() => {
+  console.log("say");
+});
+run(() => {
+  console.log("cry");
+});

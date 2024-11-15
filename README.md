@@ -301,13 +301,242 @@ function 외부함수() {
 화살표함수(); //  화살표함수 is not defined
 ```
 
-### 3.4. this 오류의 원인
+### 3.4. this - 오류의 원인
 
-- global scope 의 this 는 window
+#### 3.4.1. global scope 의 this 는 window
 
 ```js
-console.log("글로벌 this: ", this); //  window
+console.log("글로벌 this: ", this); //  글로벌 this: window
 ```
 
-- 화살표 함수 안쪽의 this 는 window 가 아닐 수 있다.
-- 일반 함수 안쪽의 this 는 window 가 아닐 수 있다.
+#### 3.4.2. 화살표 함수 안쪽의 this 는 window 가 아닐 수 있다.
+
+- global scope 에 생성된 arrow function 의 `this` 는 **window**
+- `this 로 변수를 참조하면 안된다.` 이유는 window 를 참조하므로
+- 이런 경우 화살표 함수에서는 this 사용을 지양
+
+```js
+const go = () => {
+  const age = 10;
+  console.log("화살표 this: ", this); //  window
+  console.log("화살표 age: ", age); //  지역변수
+  console.log("화살표 this.age: ", this.age);
+  //  undefined( 전역변수 age를 탐색 )
+};
+go();
+```
+
+- `객체`라는 곳에 기능(함수), 즉 `method` 에 만약 `화살표 함수`로 `this` 를 쓴다면? **window**
+- `this 로 변수를 참조하면 안된다.` 이유는 `window 를 참조`하므로
+- 이런 경우 화살표 함수에서는 this 사용을 지양
+
+```js
+// 기본 데이터를 묶어서({ } 안에 모아서) 관리할 수 없을까?
+// Object - data type
+const Person = {
+  userName: "홍길동", //  속성(Property)
+  age: 20, //  속성(Property)
+  korean: true, //  속성(Property)
+  say: () => {
+    //  행동, 기능(Method)
+    console.log("안녕", this);
+    console.log("안녕", this.userName); //  undefined
+    console.log("안녕", this.age); //  undefined
+    console.log("안녕", this.korean); //  undefined
+  },
+  cry: () => {
+    //  행동, 기능(Method)
+    console.log("ㅠㅠ", this);
+  },
+};
+
+console.log(Person.userName); //  홍길동
+console.log(Person["userName"]); //  홍길동
+console.log(Person.age); //  20
+console.log(Person.korean); //  true;
+Person.say(); //  안녕 window
+Person.cry(); //  ㅠㅠ window
+```
+
+- `일반 함수 안쪽에 화살표 함수를 중첩`해서 사용시 `this` 는? **window**
+- `this 로 변수를 참조하면 안된다.` 이유는 `window 를 참조`하므로
+- 이런 경우 화살표 함수에서는 this 사용을 지양
+
+```js
+function go() {
+  const age = 10;
+  const say = () => {
+    const hobby = "축구";
+    console.log(this);
+    console.log(this.age); //  undefined
+    console.log(this.hobby); //  undefined
+  };
+  say();
+}
+go(); //  window
+```
+
+- `비동기 함수`에서의 `화살표 함수의 this` 는? **window**
+- `this 로 변수를 참조하면 안된다.` 이유는 `window 를 참조`하므로
+- 이런 경우 화살표 함수에서는 this 사용을 지양
+
+```js
+// 시간이 오래 걸리는 작업을 가지고 테스트
+function Timer() {
+  let count = 0;
+  // 타이머 함수를 이용해서 오래 걸리도록 샘플
+  // 웹브라우저에 기본 내장 되어있는 즉, Built-in 이 되어 있는 함수(내장함수)
+  // setInterval(할일, 간격);
+  setInterval(() => {
+    count++;
+    console.log("안녕: ", this);
+    console.log("안녕: ", this.count); //  undefined
+    this.count++; //  undefined + 1
+    console.log("안녕: ", this);
+    console.log("안녕: ", this.count); //  NaN
+  }, 1000);
+}
+
+Timer();
+```
+
+- `class 에 화살표 method` 를 사용시 this 는? **window 가 아닌 instance** 를 가리킴
+- instance 안에서 this 는 **instance** 를 가리킨다.
+
+```js
+class Student {
+  // new Student() 실행시 자동실행
+  // 객체를 생성하는 함수 - 기본 생성자 함수
+  constructor() {
+    console.log("학생 한 객체 인스턴스를 만들어요.");
+  }
+  count = 1;
+  say = () => {
+    console.log("instance: ", this); //  Student
+    console.log("instance.count: ", this.count); //  1
+  };
+}
+
+const st = new Student();
+st.say();
+```
+
+#### 3.4.3. 일반 함수 안쪽의 this 는 window 가 아닐 수 있다.
+
+- global 영역의 `function 의 this` 는? **window**
+
+```js
+function go() {
+  const age = 10;
+  console.log(this); //  window
+  console.log(age); // 지역변수
+  console.log(this.age); //  undefined
+}
+go();
+```
+
+- `객체`라는 곳에 기능(함수), 즉 `method` 에 만약 `function`으로 `this` 를 쓴다면? **객체 자기자신을 가리킨다**
+  > function 을 작성한 scope 가 this 가 된다
+
+```js
+const Person = {
+  userName: "홍길동", //  속성(Property)
+  age: 20, //  속성(Property)
+  korean: true, //  속성(Property)
+  say: function () {
+    //  행동, 기능(Method)
+    console.log(this); //  Person
+    console.log(this.userName); //  홍길동
+    console.log(this.age); //  20
+    console.log(this.korean); //  true
+  },
+  cry: function () {
+    //  행동, 기능(Method)
+    console.log(this); //  Person
+  },
+};
+```
+
+- `비동기 함수`에서의 `function 의 this` 는? **window**
+- `누가` function 을 `call` 했는지가 중요
+
+```js
+function Timer() {
+  let count = 0;
+  setInterval(function () {
+    // function 을 실행하는 주체가 window 라서
+    console.log("안녕: ", this); //  window
+  }, 1000);
+}
+Timer();
+```
+
+- `class 에 화살표 method` 를 사용시 this 는? **window 가 아닌 instance** 를 가리킴
+- instance 안에서 this 는 **instance** 를 가리킨다.
+- `누가` function 을 `call` 했는지가 중요
+
+```js
+class Student {
+  constructor() {
+    console.log("학생 한 객체 인스턴스를 만들어요.");
+  }
+  count = 1;
+  say = function () {
+    console.log("instance: ", this); //  Student
+    console.log("instance.count: ", this.count); //  1
+  };
+}
+
+const st = new Student();
+st.say();
+```
+
+</br>
+
+## 4. 콜백함수(Callback Function)
+
+- 함수(Function, Arrow Function) 를 parameter 로 전달하는 것
+- parameter 의 값으로 전달되는 함수를 말함
+- 비동기 즉, server 연동(Request, Response) 후에 함수실행
+- 이벤트 기반 함수 실행(클릭했을 떄, html이 완성되었을 때)
+
+### 4.1. 아래 모두 동일한 코드
+
+-가능하면 마지막 방식을 추천
+
+```js
+function run(함수) {
+  함수();
+}
+///////////////////////////////////// this issue 가 생길 수 있음
+function say() {
+  console.log("say");
+}
+function cry() {
+  console.log("ㅠㅠ");
+}
+
+run(function () {
+  console.log("say");
+});
+run(function () {
+  console.log("ㅠㅠ");
+});
+/////////////////////////////////////
+const say = () => {
+  console.log("say");
+};
+const cry = () => {
+  console.log("ㅠㅠ");
+};
+
+run(say);
+run(cry);
+///////////////////////////////////// 추천
+run(() => {
+  console.log("say");
+});
+run(() => {
+  console.log("cry");
+});
+```
