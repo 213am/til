@@ -17,7 +17,7 @@
   > 터미널
 
 ```bash
-nvm - v;
+nvm - v
 ```
 
 - 내 PC에 설치된 node.js 목록 확인
