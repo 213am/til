@@ -1,279 +1,298 @@
-# Node.js
+# React CRA project
 
-- 웹브라우저가 아닌 PC 에서 실행되는 javascript
-- web server, DataBase 연결, web service 개발 환경 구성 등
+- 기존 react project 생성의 기준
+- ESLint 설정과 Prettier 통합이 목표
 
-## 1. 설치
+## 1. VSCode Extensions 설치
 
-### 1.1. 웹사이트(https://nodejs.org/en)
+- ESLint : JavaScript 를 위해서 코드 오류 및 코드 가이드를 도와주는 도구
+- ES7+ React/Redux/React-Native/JS snippets : React template 도구
+- Error Lens : JS 코드 에러 체크
+- Prettier - Code formatter : 문서 formatter
 
-### 1.2. NVM(Node Version Manager)
+</br>
 
-- 여러개의 node.js 버전을 선택해서 설치 및 실행
+## 2. React project 기본형 설치
 
-  > nvm-setup 파일 다운로드
-
-- 설치 환경 확인
-  > 터미널
-
-```bash
-nvm - v;
-```
-
-- 내 PC에 설치된 node.js 목록 확인
+- project 명은 반드시 `소문자`로 생성
+- project 명에 특수기호는 `-`만 허용
+- 만약 현재 폴더에 프로젝트를 생성하려면 `.`을 작성
+- 기본적으로 `git init`이 셋팅
 
 ```bash
-nvm ls
-```
-
-- node.js 전체 목록 확인
-
-```bash
-nvm list available
-```
-
-- 원하는 LTS(Long Term Service) 버전 설치하기
-
-```bash
-nvm install 20.18.0
-nvm install 20.12.0
-```
-
-- 지정한 버전 삭제하기
-
-```bash
-nvm uninstall 20.12.0
-```
-
-- 원하는 버전 사용하기
-
-```bash
-nvm use 20.18.0
+npx create-react-app@latest 프로젝트명
 ```
 
 </br>
 
-## 2. node.js 버전 확인하기
+## 3. 생성된 project 살펴보기
 
-```bash
-node --version
-node -v
-```
+- 진행중인 프로젝트가 있다면 package.json 부터 파악
 
-</br>
+### 3.1. package.json 살펴보기
 
-## 3. npm(Node Package Manager) 버전 확인하기
-
-```bash
-npm -v
-```
-
-</br>
-
-## 4. javascript 프로젝트 구성
-
-- 원하는 소스를 https://www.npmjs.com/ 에서 다운로드
-- 수작업으로도 기본 Node.js 프로젝트 생성 가능
-
-### 4.1. Node.js 프로젝트 폴더 및 기본형 생성
-
-- `07-nodejs` 폴더 생성
-- 터미널에 `cd 07-nodejs` 입력해 폴더 이동
-- `npm init`
-
-### 4.2. Node.js 로 index.js 실행
-
-- `index.js` 생성
-- 터미널에 `node index.js` 입력
-
-```js
-console.log(Hello Node.js)  //  Hello Node.js
-```
-
-- 만약에 `index.js` 가 `src` 폴더에 배치되었다면 `node src/index.js`
-
-### 4.3. 매번 입력하기 어려우므로 script 명령 사용
+- `npm install 모듈명`
+- 개발시에 활용한 모듈 파악
 
 ```json
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "node src/index.js"  //  scripts 에 추가
-  },
+// 웹소스에 포함되는 모듈 목록
+"dependencies": {}
 ```
-
-```bash
-npm run dev
-```
-
-</br>
-
-## 5. 모듈 직접 만들어보기
-
-- 모듈(module) : `파일 단위`로 `지역 스코프`를 가진다
-- ES6 모듈방식, CommonJS 모듈방식, AMD 모듈방식, UMD 모듈방식
-- 지금은 ES6 모듈방식을 기본으로 합니다
-- `package.json 을 셋팅하지 않으면 자동으로 commonJS 모듈이 적용`
-
-### 5.1. CommonJS 이해
-
-- util.js
-
-```js
-// CommonJs 방식
-function say() {
-  console.log("안녕하세요");
-}
-function hi() {
-  console.log("반가워요");
-}
-function smile() {
-  console.log(": )");
-}
-// common.js 에서 외부에 함수를 전달
-module.exports = {
-  say, //  say: say 객체 속성 축약형***
-  hello: hi, //  객체 이름 변경(아주 드문 케이스)
-  smile: smile, //  객체 이름과 값이름 같게(축약형 사용 추천)
-};
-```
-
--index.js
-
-```js
-// 사용하려는 모듈을 불러들인다
-// 무조건 최상단에서 코드를 불러들인다
-const { say, smile } = require("./util.js");
-// 원하는 data만 골라서 사용하기 위해서
-// 객체 구조 분해 할당 문법을 이용
-// const aaa = require("./util.js) 식으로 사용은 비추천
-console.log("Hello Node.js");
-
-say();
-// hello();
-smile();
-```
-
-### 5.2. ES6 모듈의 이해
-
-- 모듈은 `파일 단위`의 `지역 스코프`를 가진다
-- 반드시 명시하셔야 합니다.(node.js 를 직접 구성하신다면)
-- package.json 에 명시
 
 ```json
-type: "module"
+// 개발에만 사용되는 모듈 목록
+// 웹소스에는 포함 안됨
+"devDependencies": {}
 ```
 
-- 예제 1
-
-```js
-function say() {
-  console.log("안녕하세요");
-}
-function hi() {
-  console.log("반가워요");
-}
-function smile() {
-  console.log(": )");
-}
-// ES6 module 에서 외부에 함수를 전달
-export { say, hi, smile };
-```
-
-```js
-// 사용하려는 모듈을 불러들인다
-// 무조건 최상단에서 코드를 불러들인다
-import { say, smile } from "./util.js";
-console.log("Hello Node.js");
-
-say();
-// hello();
-smile();
-```
-
-- 예제 2
-
-```js
-export function say() {
-  console.log("안녕하세요");
-}
-// 기본값
-export default function hi() {
-  console.log("반가워요");
-}
-export function smile() {
-  console.log(": )");
-}
-export function yok() {
-  console.log("sakdfasndg");
-}
-// ES6 module 에서 외부에 함수를 전달
-export { say, hi, smile };
-```
-
-```js
-import hi, { say, smile } from "./util.js";
-
-say();
-smile();
-hi();
-```
-
-- 화살표 함수
-
-```js
-export const say = () => {
-  console.log("안녕하세요");
-};
-
-// hi를 변수로 먼저 선언하고 default로 export하거나, 이름 없는 함수로 export default를 사용해야 합니다.
-const hi = () => {
-  console.log("반가워요");
-};
-export default hi;
-
-export const smile = () => {
-  console.log(": )");
-};
-
-export const yok = () => {
-  console.log("sakdfasndg");
-};
-```
-
-  </br>
-
-## 6. 타인(npm.com)의 모듈 활용하기
-
-- 미리 만들어둔 module 을 다운로드 받아서 활용(open source)
-- 체크사항 : `프로젝트 폴더 구조의 변화` 및 `package.json 변화`
-- module source 관리는 `npm` 또는 `yarn` 사용
-- `npm -v` 로 설치 확인
-
-### 6.1. `npmjs.com`에서 모듈 선택시 고려사항
-
-- `TS` 지원되는지(TypeScript)
-- 다운로드 수
-- 주기적 관리(version)
-
-### 6.2. 모듈 관련 명령어
-
-- 모듈 설치
+- scripts 항목(실행 명령어)
 
 ```bash
-npm i 모듈명
-npm install 모듈명
+npm run 명령어
+npm run start // **미리보기( 미리보기 종료 : ctrl + c )
+npm run build // **최종 전달할 소스 번들링( 압축 )
+npm run test // 개발 중 원하는 결과가 나오는지 테스트 시 실행( TDD )
+npm run eject // 숨겨진 소스에서 추출하기
 ```
 
-- 모듈 제거
+### 3.2. 불필요한 라이브러리 삭제
 
-```bash
-npm uninstall 모듈명
+- package.json 원본
+
+```json
+ "dependencies": {
+    "@testing-library/jest-dom": "^5.17.0",
+    "@testing-library/react": "^13.4.0",
+    "@testing-library/user-event": "^13.5.0",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "react-scripts": "5.0.1",
+    "web-vitals": "^2.1.4"
+  }
 ```
 
-- 모듈 초기 셋팅
-  > package-lock.json 파일 제거, node_modules 폴더 제거
+- package.json 수정본
+
+```json
+  "dependencies": {
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "react-scripts": "5.0.1"
+  }
+```
+
+- package-lock.json 삭제
+- node_modules 폴더 삭제
+- 재설치
 
 ```bash
 npm i
 npm install
+```
+
+### 3.3. .gitignore 살펴보기
+
+- GitHub 에 업로드 되면 절대 안되는 파일과 폴더 목록
+- 실습 `/.env` 파일 만들기
+
+```js
+JUMIN_NUM = 000000;
+```
+
+- .gitignore 내용 수정 및 추가
+
+```git
+# env
+.env
+```
+
+### 3.4. public 폴더 살펴보기
+
+- `favicon.ico` : 즐겨찾기 및 주소 공유시 보일 이미지
+- `logo192.png...` : 휴대폰 바로가기 등에 보일 이미지
+- `manifest.json` : react 는 웹 어플리케이션. 앱의 설명을 부여
+- `robots.txt` : 검색엔진 노출 여부 작성. 크롤링 여부
+- 추가 `sitemap.xml` : 네이버, 구글 검색 등록시 요구 파일
+  > 웹페이지에 추가할 모든 리소스( 이미지, 영상, 음악, 폰트 등 ) 배치
+- `images` 폴더, `assets` 폴더 배치
+- `index.html` : 주석 및 수정사항 정리
+
+```html
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" href="%PUBLIC_URL%/favicon.ico" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#000000" />
+    <meta
+      name="description"
+      content="Web site created using create-react-app"
+    />
+    <link rel="apple-touch-icon" href="%PUBLIC_URL%/logo192.png" />
+    <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
+    <title>서비스 타이틀</title>
+  </head>
+  <body>
+    <noscript>You need to enable JavaScript to run this app.</noscript>
+    <div id="root"></div>
+  </body>
+</html>
+```
+
+### 3.5. src 폴더 살펴보기
+
+- 제거할 파일들
+
+  > `App.test.js` // 파일명, 폴더명에 `test` 가 있으면 `TDD` 를 위한 파일
+  > `logo.svg` // 사용하지 않는 기본 로고
+  > `reportWebVitals.js` // `webVitals` 에 필요한 파일
+  > `setupTest.js` // `TDD` 를 위한 파일
+
+- index.js
+  > 최초 실행되는 js 파일
+
+```js
+import React from "react";
+import ReactDOM from "react-dom/client";
+import "./index.css";
+import App from "./App";
+
+// id = root 에 js 실행 결과를 입력
+// index.html 에 있는 <div id="root"></div> 변경금지
+const root = ReactDOM.createRoot(document.getElementById("root"));
+root.render(
+  <React.StrictMode>
+    <App />
+  </React.StrictMode>,
+);
+```
+
+- App.js
+  > 화면에 html(jsx) 을 출력한다면 `반드시 대문자`로 파일명 작성
+
+```js
+import "./App.css";
+
+function App() {
+  return <div>Hello World</div>;
+}
+
+export default App;
+```
+
+- index.css : css 기본설정
+
+```css
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+a {
+  text-decoration: none;
+  color: #000000;
+}
+
+ul,
+li {
+  list-style: none;
+}
+
+html {
+  font-size: 16px;
+}
+
+body {
+  font-size: 16px;
+}
+```
+
+- App.css : 내용만 삭제. 작업하면서 내용 추가
+
+## 4. 협업 프로젝트 개발 환경설정
+
+### 4.1. ESLint
+
+- 반드시 extensions - ESLint 설치하고 진행
+- ESLint 버전을 맞춰서 작업해야 함
+- 기존에는 `.eslintrc.js` 또는 `.eslintrc.json` 파일
+- 최신 버전은 `eslint.config.mjs` 파일
+- `.mjs`. 확장자는 ESM 을 나타냄
+
+- ESLint 7 버전으로 셋팅
+
+```bash
+npm install eslint@7 -D
+```
+
+```bash
+npx eslint --init
+```
+
+### 4.2. Prettier
+
+- 반드시 extensions - Prettier 설치하고 진행
+- `npm i prettier -D`
+- 파일로 문서포맷을 관리하도록 한다 `.prettierrc.json` 파일 생성
+
+```js
+{
+  "singleQuote": false,
+  "semi": true,
+  "useTabs": false,
+  "tabWidth": 2,
+  "trailingComma": "all",
+  "printWidth": 80,
+  "arrowParens": "avoid",
+  "endOfLine": "auto"
+}
+```
+
+### 4.3. ESLint 와 Prettier 통합 관리
+
+- ESLint 에서 Prettier 에 관련된 규칙도 같이 확인하도록
+
+```bash
+npm i eslint-config-prettier -D
+
+npm i eslint-plugin-prettier -D
+npm i eslint-plugin-prettier -D --force
+```
+
+- .eslintrc.js 에서 Prettier 관리하는 내용의 코드 추가
+
+```js
+module.exports = {
+  env: {
+    browser: true,
+    es2021: true,
+  },
+  extends: [
+    "eslint:recommended",
+    "plugin:react/recommended",
+    "plugin:prettier/recommended",
+  ],
+  parserOptions: {
+    ecmaFeatures: {
+      jsx: true,
+    },
+    ecmaVersion: 12,
+    sourceType: "module",
+  },
+  plugins: ["react"],
+  rules: {},
+};
+```
+
+### 4.4. ESLint `rules` 설정
+
+- `.eslintrc.js` 로 관리
+
+```js
+  rules: {
+    "no-unused-vars": "warn",
+    //  선언만 하고 사용하지 않은 변수에 대한 처리
+  },
 ```
