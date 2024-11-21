@@ -293,6 +293,7 @@ module.exports = {
 ```js
   rules: {
     "no-unused-vars": "warn",
-    //  선언만 하고 사용하지 않은 변수에 대한 처리
+    // 선언만 하고 사용하지 않은 변수에 대한 처리
+    // off     warn      error
   },
 ```
